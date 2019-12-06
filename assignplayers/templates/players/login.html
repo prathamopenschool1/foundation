@@ -1,0 +1,20 @@
+{% extends 'players/base.html' %}
+{% load static %}
+{% block title %}Pratham Players{% endblock %}
+
+{% block content %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+
+    <div class="jumbotron">
+        <form action="{% url 'players:user_login' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Username: </label>
+            <input type="text" name="username" placeholder="Enter Your Username"><br>
+            <label for="password">Password: </label>
+            <input type="password" name="password"><br>
+            <input type="submit" name="" value="Login">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% block content %}
+    {% for value in states %}
+        <option value="{{ value.StateCode }}">{{ value.StateName }}</option>
+    {% endfor %}
+{% endblock %}

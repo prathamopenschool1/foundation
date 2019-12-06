@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<!--    <link rel="stylesheet" type="text/css" href=" {% static 'css/base.css'%}">-->
+<!--    <link rel="stylesheet" type="text/css" href=" {% static 'css/home.css'%}">-->
+
+</head>
+<body>
+        <navbar class="navbar navbar-dark navbar-expand-lg bg-dark ">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            {% if user.is_authenticated %}
+                <a class="navbar-brand" href="{% url 'index' %}">Pradigi</a>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'players:programs' %}">Home</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">Apps</a>
+                      </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                    </ul>
+            {% else %}
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="navbar-brand" href="{% url 'index' %}">LOGO</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'players:user_login' %}">Login</a>
+                    </li>
+            {% endif %}
+                </ul>
+          </div>
+        </navbar>
+        <div class="wrapper">
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>{% block head %}{% endblock %}</h1>
+                        {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,180 @@
+{% extends 'players/base.html' %}
+{% load static %}
+{% block title %}Pratham Players{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <br>
+            Programs:
+            <select name="program_list" class="form-control" id="auto" onchange="">
+                <option value="">Please select the program</option>
+                {% for values in programs %}
+                    <option value="{{ values.ProgramId }}">{{ values.ProgramName }}</option>
+                {% endfor %}
+            </select><br>
+            States:
+            <select name="state_list" class="form-control" id="auto_state" onchange="">
+                <option value=" ">Please select the state</option>
+            </select><br>
+            Districts:
+            <select name="district_list" class="form-control" id="auto_district" onchange="">
+                <option value=" ">Please select the district</option>
+            </select><br>
+            Blocks:
+            <select name="block_list" class="form-control" id="auto_block">
+                <option value=" ">Please select the district</option>
+            </select><br>
+            <button id="get_villages" name="answer" class="btn btn-primary" data-toggle="modal" data-target="#popup">
+                OK
+            </button>
+            <!-- The Modal -->
+          <div class="modal" id="popup">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Villages</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="villagedetails">
+<!--                    <input type="text" class="form-control" id="myMainPageInput" />-->
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="pull_ids" data-dismiss="modal">Pull Data</button>
+<!--                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
+                </div>
+
+              </div>
+            </div>
+          </div>
+                 <style>
+                .modal{
+                        height: 60%;
+                        justify-content:center;
+                        align-content:center;
+                        align-items: flex-start;
+                        -webkit-transform: translate(0,-50%);
+                        -o-transform: translate(0,-50%);
+                        transform: translate(0,-50%);
+                        top: 50%;
+                        margin: 0 auto;
+                }
+                .modal-content {
+                    /* 80% of window height */
+                    height: 60%;
+                }
+            </style>
+
+        <script>
+            $('select[name=program_list]').change(function(){
+                var program_id = $(this).val();
+                requested_url = '/states/';
+                $.ajax({
+                    url: requested_url,
+                    type: 'GET',
+                    data: {
+                        'program_id': program_id
+                    },
+                    crossDomain: true,
+                    datatype: "jsonp",
+                    success: function(data){
+                        console.log(data);
+                        $('#auto_state').html('<option value=" ">'+data+'</option>');
+                    }
+                });
+            });
+            $('select[name=state_list]').change(function(){
+                var state_id = $('#auto_state').val();
+                requested_url = '/districts/';
+                $.ajax({
+                    url: requested_url,
+                    type: 'GET',
+                    data: {
+                        'state_id': state_id
+                    },
+                    crossDomain: true,
+                    datatype: 'jsonp',
+                    success: function(data){
+                        console.log(data);
+                        $('#auto_district').html('<option value=" ">'+data+'</option>');
+                    }
+                });
+            });
+            $('select[name=district_list]').change(function(){
+                var district_name = $('#auto_district option:selected').text();
+                requested_url = '/blocks/';
+                $.ajax({
+                    url: requested_url,
+                    type: 'GET',
+                    data: {
+                        'district_name': district_name
+                    },
+                    crossDomain: true,
+                    datatype: 'jsonp',
+                    success: function(data){
+                        console.log(data);
+                        $('#auto_block').html('<option value=" ">'+data+'</option>');
+                    }
+                });
+            });
+            $('#get_villages').click(function(){
+                    var block_name = $('#auto_block option:selected').text();
+                    requested_url = "/villages/";
+                    $.ajax({
+                        url: requested_url,
+                        type: 'GET',
+                        data: {
+                            'block_name': block_name
+                        },
+                        crossDomain: true,
+                        datatype: "jsonp",
+                        success: function(data){
+                            $('#villagedetails').html(data);
+                            $('#popup').modal('show');
+                        }
+                    });
+                    return (false);
+            });
+            $('#pull_ids').click(function(){
+               var village_ids = [];
+               $("input:checkbox[name=village_data]:checked").each(function(){
+                    village_ids.push($(this).val());
+               });
+               $.ajax({
+                    url: "/post_villages/",
+                    type: 'POST',
+                    data:{
+                        'village_values[]':  village_ids,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    crossDomain: true,
+                    datatype: "json",
+                    success: function(result){
+                         console.log(result);
+                    },
+                    error: function (error) {
+                        console.log('error; ' + eval(error));
+                    }
+               });
+            });
+            $('#pull_ids').click(function(){
+                    requested_url = "/crls/";
+                    $.ajax({
+                        url: requested_url,
+                        type: 'GET',
+                        crossDomain: true,
+                        datatype: "jsonp",
+                        success: function(data){
+                            console.log(data);
+                        }
+                    });
+                });
+        </script>
+    </form>
+{% endblock %}
