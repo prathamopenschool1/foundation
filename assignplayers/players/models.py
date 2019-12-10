@@ -15,3 +15,11 @@ class PlayersDatastore(models.Model):
         return crl_data
     # def __str__(self):
     #     return self.data[0]
+
+
+class AppsList(models.Model):
+    app_name = models.CharField(max_length=200)
+    app_id = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.app_name

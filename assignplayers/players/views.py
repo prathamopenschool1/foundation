@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import PlayersDatastore
+from .models import PlayersDatastore, AppsList
 from django.contrib.auth.models import User
 import requests
 import json
@@ -15,9 +15,7 @@ import json
 def index(request):
     user_data = User.objects.all()
     print(user_data)
-    if user_data:
-        return HttpResponseRedirect(reverse('user_login'))
-    else:
+    if not user_data:
         headers = {
             'cache-control': "no-cache",
             'content-type': "application/json",
@@ -28,12 +26,12 @@ def index(request):
         programs_urls = "http://swap.prathamcms.org/api/program"
         program_api_response = requests.request('get', programs_urls, headers=headers)
         program_api_result = json.loads(program_api_response.content.decode("utf-8"))
-        # for values in program_api_result:
-        #     pprint(values)
         context = {
             'programs': program_api_result
         }
-        return render(request, 'players/index.html', context)
+        return render(request, 'players/setup_index.html', context)
+    else:
+        return HttpResponseRedirect(reverse('user_login'))
 
 
 @login_required()
@@ -294,7 +292,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/programs/')
+                return HttpResponseRedirect('/app_available/')
             else:
                 return HttpResponse('This Account is not active')
         else:
@@ -303,5 +301,19 @@ def user_login(request):
 
     else:
         return render(request, 'players/login.html', {})
+
+
+def app_available(request):
+    app_list_views = AppsList.objects.all()
+
+    context = {
+        'app_list_views': app_list_views,
+    }
+
+    return render(request, 'players/app_available.html', context=context)
+
+
+def apps_list(request):
+    return render(request, 'players/apps_list.html')
 
 

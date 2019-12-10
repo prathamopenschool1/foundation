@@ -121,7 +121,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    ('players', os.path.join(STATIC_DIR, 'players')),
+    ('css', os.path.join(STATIC_DIR, 'css')),
+    ('js', os.path.join(STATIC_DIR, 'js')),
+    ('images', os.path.join(STATIC_DIR, 'images')),
 ]
 
 LOGIN_URL = '/players/user_login'

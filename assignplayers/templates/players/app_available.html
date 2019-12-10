@@ -1,0 +1,32 @@
+{% extends 'players/base.html' %}
+{% load staticfiles %}
+{% block title %}Pratham Players{% endblock %}
+
+{% block content %}
+        {% if app_list_views %}
+            <div class="container">
+                <h3>Apps</h3><br>
+                {% for apps in app_list_views %}
+                    <div class="card" style="width: 200px;">
+                        <img class="card-img-top" src="{% static 'images/logop.png' %}" alt="Card image">
+                        <div class="card-body">
+                            <p class="card-text">{{apps}}</p>
+                            <a href="{% url 'players:apps_list' %}" class="btn btn-secondary">Update</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Apps Not Available Please Download Apps</p><br>
+                <div class="container">
+                    <div class="card" style="width: 200px;">
+                        <img class="card-img-top" src="{% static 'images/logop.png' %}" alt="Card image">
+                        <div class="card-body">
+                            <p class="card-text"></p>
+                            <a href="{% url 'players:apps_list' %}" class="btn btn-secondary">Download</a>
+                        </div>
+                    </div>
+                </div>
+        {% endif %}
+
+{% endblock %}
