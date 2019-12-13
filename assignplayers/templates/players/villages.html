@@ -1,11 +1,16 @@
+{% load staticfiles %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href=" {% static 'css/base.css'%}">
+{% endblock %}
+
 {% block content %}
     {% for values in villages %}
-    <div class="form-check">
-      <label class="form-check-label" for="check1">
-        <input type="checkbox" class="form-check-input" id="check1" name="village_data" value="{{ values.VillageId }}">
-          {{ values.VillageName }}<br>
-      </label>
-    </div>
+        <div class="form-check">
+          <label class="form-check-label" for="check1">
+            <input type="checkbox" class="form-check-input" id="check1" name="village_data" value="{{ values.VillageId }}">
+              {{ values.VillageName }}<br>
+          </label>
+        </div>
     {% endfor %}
 
 {% endblock %}

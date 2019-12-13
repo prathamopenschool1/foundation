@@ -1,14 +1,5 @@
-/* Equal-height card images, cf. https://stackoverflow.com/a/47698201/1375163*/
-.container {
-    display: grid;
-    grid-template-columns: repeat(20, auto);
-    grid-gap: 2px;
-}
-
-.card {
-    margin: 2px;
-}
-.card-img-top {
-     height: 10rem;
-    object-fit: cover;
-}
+.checkbox
+    {
+        float:left;
+        width:25%;
+    }

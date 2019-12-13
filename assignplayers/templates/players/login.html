@@ -7,14 +7,16 @@
         {{ message }}
     {% endfor %}
 
-    <div class="jumbotron">
-        <form action="{% url 'players:user_login' %}" method="post">
-            {% csrf_token %}
-            <label for="username">Username: </label>
-            <input type="text" name="username" placeholder="Enter Your Username"><br>
-            <label for="password">Password: </label>
-            <input type="password" name="password"><br>
-            <input type="submit" name="" value="Login">
-        </form>
+    <div class="wrapper col-md-4 text-center container">
+        <div class="jumbotron vertical-center">
+            <form action="{% url 'players:user_login' %}" method="post">
+                {% csrf_token %}
+                <label for="username">Username: </label>
+                <input type="text" name="username" placeholder="Enter Your Username"><br>
+                <label for="password">Password: </label>
+                <input type="password" name="password"><br>
+                <input type="submit" name="" value="Login">
+            </form>
+        </div>
     </div>
 {% endblock %}

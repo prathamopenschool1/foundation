@@ -34,6 +34,7 @@ def index(request):
         return HttpResponseRedirect(reverse('user_login'))
 
 
+# function to fetch programs after login
 @login_required()
 def program_call(request):
     headers = {
@@ -46,8 +47,6 @@ def program_call(request):
     programs_urls = "http://swap.prathamcms.org/api/program"
     program_api_response = requests.request('get', programs_urls, headers=headers)
     program_api_result = json.loads(program_api_response.content.decode("utf-8"))
-    # for values in program_api_result:
-    #     pprint(values)
     context = {
         'programs': program_api_result
     }
@@ -303,6 +302,7 @@ def user_login(request):
         return render(request, 'players/login.html', {})
 
 
+@login_required
 def app_available(request):
     app_list_views = AppsList.objects.all()
 
@@ -313,6 +313,7 @@ def app_available(request):
     return render(request, 'players/app_available.html', context=context)
 
 
+@login_required
 def apps_list(request):
     return render(request, 'players/apps_list.html')
 
