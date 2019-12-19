@@ -42,6 +42,11 @@
                 <!-- Modal body -->
                 <div class="modal-body" id="villagedetails">
 <!--                    <input type="text" class="form-control" id="myMainPageInput" />-->
+                    <div class="text-center">
+                      <div class="spinner-border" role="status" id="loaded">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
@@ -165,6 +170,7 @@
             });
             $('#pull_ids').click(function(){
                     requested_url = "/crls/";
+                    $('#loaded').show();
                     $.ajax({
                         url: requested_url,
                         type: 'GET',
@@ -172,6 +178,10 @@
                         datatype: "jsonp",
                         success: function(data){
                             console.log(data);
+                            if(data != null && data == 'success'){
+                                $('#loaded').show();
+                                window.location="/user_login/";
+                            }
                         }
                     });
                 });

@@ -282,24 +282,30 @@ def user_logout(request):
 
 
 def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    user_new = User.objects.all()
 
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('/app_available/')
-            else:
-                return HttpResponse('This Account is not active')
-        else:
-            messages.error(request, 'username or password is not correct')
-            return HttpResponseRedirect('/user_login/')
+    if not user_new:
+        return HttpResponseRedirect('/')
 
     else:
-        return render(request, 'players/login.html', {})
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/app_available/')
+                else:
+                    return HttpResponse('This Account is not active')
+            else:
+                messages.error(request, 'username or password is not correct')
+                return HttpResponseRedirect('/user_login/')
+
+        else:
+            return render(request, 'players/login.html', {})
 
 
 @login_required
