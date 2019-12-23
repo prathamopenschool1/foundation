@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import PlayersDatastore, AppsList
 from django.contrib.auth.models import User
 import requests
@@ -13,25 +13,28 @@ import json
 
 # function to fetch programs
 def index(request):
-    user_data = User.objects.all()
-    print(user_data)
-    if not user_data:
-        headers = {
-            'cache-control': "no-cache",
-            'content-type': "application/json",
-            'Accept': 'application/json'
-        }
+    try:
+        user_data = User.objects.all()
+        print(user_data)
+        if not user_data:
+            headers = {
+                'cache-control': "no-cache",
+                'content-type': "application/json",
+                'Accept': 'application/json'
+            }
 
-        # fetching programs from server
-        programs_urls = "http://swap.prathamcms.org/api/program"
-        program_api_response = requests.request('get', programs_urls, headers=headers)
-        program_api_result = json.loads(program_api_response.content.decode("utf-8"))
-        context = {
-            'programs': program_api_result
-        }
-        return render(request, 'players/setup_index.html', context)
-    else:
-        return HttpResponseRedirect(reverse('user_login'))
+            # fetching programs from server
+            programs_urls = "http://swap.prathamcms.org/api/program"
+            program_api_response = requests.request('get', programs_urls, headers=headers)
+            program_api_result = json.loads(program_api_response.content.decode("utf-8"))
+            context = {
+                'programs': program_api_result
+            }
+            return render(request, 'players/setup_index.html', context)
+        else:
+            return HttpResponseRedirect(reverse('user_login'))
+    except Exception:
+        return HttpResponse("<h2>OOPS!! internet connection not there</h2>")
 
 
 # function to fetch programs after login

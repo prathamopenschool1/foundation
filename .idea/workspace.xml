@@ -5,7 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/players/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/static/css/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/setup_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/setup_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/setup_wizard.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/setup_wizard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,9 +70,9 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1576735347626">
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1577090873141">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1576735347626" />
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1577090873141" />
   </component>
 </project>
