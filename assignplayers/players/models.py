@@ -18,8 +18,21 @@ class PlayersDatastore(models.Model):
 
 
 class AppsList(models.Model):
-    app_name = models.CharField(max_length=200)
-    app_id = models.CharField(max_length=200)
+    Key_Id = models.CharField(max_length=200)
+    AppId = models.CharField(max_length=200)
+    ParentId = models.CharField(max_length=200)
+    JsonData = JSONField(default={}, blank=True)
+    FileDownload = models.CharField(max_length=500, default="file name which will be downloaded")
+    DateUpdated = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.app_name
+    # print(Key_Id, AppId, ParentId, JsonData, FileDownload, DateUpdated)
+
+    @classmethod
+    def create(cls, Key_Id, AppId, ParentId, JsonData, FileDownload, DateUpdated):
+        app_data = cls(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId, JsonData=JsonData,
+                       FileDownload=FileDownload, DateUpdated=DateUpdated)
+        return app_data
+
+    # def __str__(self):
+    #     return self.AppId
+

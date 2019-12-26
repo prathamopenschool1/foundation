@@ -3,5 +3,30 @@
 {% block title %}Pratham Players{% endblock %}
 
 {% block content %}
-    <h3>Apps List here</h3><br>
+    <div class="container">
+        <div class="jumbotron">
+            <h3>Apps List here</h3><br>
+            <button id="download_files" name="downloadable" class="btn btn-warning">
+                Download
+            </button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#download_files').click(function(){
+                console.log("abcd")
+                $.ajax({
+                    url: '/downloads/',
+                    type: 'GET',
+                    crossDomain: true,
+                    datatype: "jsonp",
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
+
 {% endblock %}

@@ -15,4 +15,5 @@ urlpatterns = [
     path('apps_list/', views.apps_list, name='apps_list'),
     path('app_available/', views.app_available, name='app_available'),
     path('user_login/', views.user_login, name='user_login'),
+    path('downloads/', views.download_and_save, name='downloads'),
 ]

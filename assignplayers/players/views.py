@@ -1,4 +1,6 @@
+import os
 from pprint import pprint
+from zipfile import ZipFile
 from django.contrib.auth import login, authenticate, logout
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -33,8 +35,8 @@ def index(request):
             return render(request, 'players/setup_index.html', context)
         else:
             return HttpResponseRedirect(reverse('user_login'))
-    except Exception:
-        return HttpResponse("<h2>OOPS!! internet connection not there</h2>")
+    except Exception as e:
+        return HttpResponse("<h2>OOPS!! internet connection not there</h2>", e)
 
 
 # function to fetch programs after login
@@ -325,5 +327,58 @@ def app_available(request):
 @login_required
 def apps_list(request):
     return render(request, 'players/apps_list.html')
+
+
+def download_and_save(request):
+    try:
+        headers = {
+            'cache-control': "no-cache",
+            'content-type': "application/json",
+            "Accept": "application/json"
+        }
+
+        downloadable_file_url = "http://www.swap.prathamcms.org/api/TestRepository/Get"
+        downloadable_file_response = requests.request('GET', downloadable_file_url, headers=headers)
+        downloadable_file_result = json.loads(downloadable_file_response.content.decode('utf-8'))
+
+        for values in downloadable_file_result:  # print(values['FileDownload'])
+            try:
+                zip_file_url = values['FileDownload']
+                print(zip_file_url, 'zip')
+                print(os.path.basename(zip_file_url), 'base')
+                path_to_put = '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
+                # path_to_put = path_to_put +
+                print(path_to_put)
+                file_to_get = requests.get(zip_file_url)
+                print("ddddd")
+
+                with open(path_to_put, "wb") as new_zip:
+                    for chunk in file_to_get.iter_content(chunk_size=1024):
+                        new_zip.write(chunk)
+
+                if os.path.exists(path_to_put):
+                    Key_Id = values['Key_Id']
+                    AppId = values['AppId']
+                    ParentId = values['ParentId']
+                    JsonData = values['JsonData']
+                    FileDownload = values['FileDownload']
+                    DateUpdated = values['DateUpdated']
+                    app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId, JsonData=JsonData,
+                                                       FileDownload=FileDownload, DateUpdated=DateUpdated)
+                    app_data.save()
+
+                else:
+                    print("No {}". format(path_to_put) + "exists that's why breaking the system")
+                    break
+
+            except Exception as error:
+                print(error, 'err')
+
+        return HttpResponse(downloadable_file_url)
+
+    except Exception as e:
+        print(e)
+        return HttpResponse("no internet connect")
+
 
 
