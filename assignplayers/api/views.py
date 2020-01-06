@@ -10,7 +10,7 @@ from .serializers import PlayersDatastoreSerializer
 
 class PlayerDataStoreView(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter,)
-    queryset = PlayersDatastore.objects.all()
+    queryset = PlayersDatastore.objects.order_by('id')
     serializer_class = PlayersDatastoreSerializer
     filter_fields = ('filter_name', 'table_name')
     pagination_class = PageNumberPagination
