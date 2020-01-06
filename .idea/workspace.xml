@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a322017-7919-43cd-a317-5d5e24f099b9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pratham.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/pratham.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/assignplayers/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/assignplayers/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/assignplayers/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/assignplayers/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assignplayers/players/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assignplayers/players/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assignplayers/players/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/apps_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/apps_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -26,7 +26,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1TVLn8HO9wRvFezaHVSifDf6mQC" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -34,7 +36,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$USER_HOME$/villagefilteringprogram" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../villagefilteringprogram" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -70,9 +72,13 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1577363506572">
+    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1578045139995">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1577363506572" />
+    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl/47.27.1319.741@47.27.1319.741" timestamp="1578045139995" />
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1578116049584">
+      <screen x="47" y="27" width="1319" height="741" />
+    </state>
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1578116049584" />
   </component>
 </project>
