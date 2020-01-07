@@ -19,10 +19,10 @@
 <body>
         <br>
         <div class="wrapper col-md-4 text-center container">
-            <div class="jumbotron vertical-center">
+            <div class="jumbotron vertical-center" style="padding-top: 16px;">
                 <div class="container">
                     <h1>{% block head %}{% endblock %}</h1>
-                        <p><h4>Setup Screen</h4></p>
+                        <img src="{% static 'images/logop.png' %}" alt="Pratham">
                         {% block content %}{% endblock %}
                 </div>
             </div>

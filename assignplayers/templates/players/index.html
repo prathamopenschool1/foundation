@@ -4,7 +4,8 @@
 
 {% block content %}
     <div class="wrapper col-md-4 text-center container">
-        <div class="jumbotron vertical-center">
+        <div class="jumbotron vertical-center" style="padding-top: 16px;">
+            <img src="{% static 'images/logop.png' %}" alt="Pratham">
             <form method="post">
                 {% csrf_token %}
 
