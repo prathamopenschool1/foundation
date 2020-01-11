@@ -13,18 +13,18 @@ import requests
 import json
 
 
+headers = {
+            'cache-control': "no-cache",
+            'content-type': "application/json",
+            "Accept": "application/json"
+        }
+
 # function to fetch programs
 def index(request):
     try:
         user_data = User.objects.all()
         print(user_data)
         if not user_data:
-            headers = {
-                'cache-control': "no-cache",
-                'content-type': "application/json",
-                'Accept': 'application/json'
-            }
-
             # fetching programs from server
             programs_urls = "http://swap.prathamcms.org/api/program"
             program_api_response = requests.request('get', programs_urls, headers=headers)
@@ -42,12 +42,6 @@ def index(request):
 # function to fetch programs after login
 @login_required()
 def program_call(request):
-    headers = {
-        'cache-control': "no-cache",
-        'content-type': "application/json",
-        'Accept': 'application/json'
-    }
-
     # fetching programs from server
     programs_urls = "http://swap.prathamcms.org/api/program"
     program_api_response = requests.request('get', programs_urls, headers=headers)
@@ -66,12 +60,6 @@ def state_call(request):
     if request.method == 'GET':
         program_id = request.GET.get('program_id')
         # print(program_id)
-
-    headers = {
-        'cache-control': "no-cache",
-        'content-type': "application/json",
-        'Accept': "application/json"
-    }
     # fetching state from server for filling drop down
     state_urls = "http://swap.prathamcms.org/api/state?progid={}" .format(program_id)
     state_api_response = requests.request('get', state_urls, headers=headers)
@@ -91,12 +79,6 @@ def district_call(request):
     state_id = ''
     if request.method == 'GET':
         state_id = request.GET.get('state_id')
-
-    headers = {
-        'cache-control': "no-cache",
-        'content-type': "application/json",
-        'Accept': "application/json"
-    }
     # getting data from server for district
     dist_url = "http://www.hlearning.openiscool.org/api/village/get?programid={}&state={}" .format(program_id, state_id)
     dist_api_response = requests.request('get', dist_url, headers=headers)
@@ -188,13 +170,6 @@ def post_villages(request):
     village_data = PlayersDatastore.objects.create(data=villages_to_post, filter_name=village_filter,
                                                    table_name='village', key_id=str(village_key))
     village_data.save()
-
-    headers = {
-        'cache-control': "no-cache",
-        'content-type': "application/json",
-        "Accept": "application/json"
-    }
-
     # fetching crls data from server
     crl_urls = "http://www.hlearning.openiscool.org/api/crl/get/?programid={}&state={}".format(program_id, state_id)
     crl_api_response = requests.request('get', crl_urls, headers=headers)
@@ -257,11 +232,6 @@ def post_villages(request):
 
 # fetching crls data from server
 def crl_call(request):
-    headers = {
-        'cache-control': "no-cache",
-        'content-type': "application/json",
-        "Accept": "application/json"
-    }
     crl_urls = "http://www.hlearning.openiscool.org/api/crl/get/?programid={}&state={}".format(program_id, state_id)
     crl_api_response = requests.request('GET', crl_urls, headers=headers)
     crl_api_result_specific = json.loads(crl_api_response.content.decode('utf-8'))
@@ -326,16 +296,19 @@ def app_available(request):
 
 @login_required
 def apps_list(request):
-    return render(request, 'players/apps_list.html')
+    apps_list_url = "http://devposapi.prathamopenschool.org/api/AppList"
+    apps_list_response = requests.get(apps_list_url, headers=headers)
+    apps_list_result = json.loads(apps_list_response.content.decode('utf-8'))
+
+    context = {
+        'apps_from_server': apps_list_result,
+    }
+
+    return render(request, 'players/apps_list.html', context=context)
 
 
 def download_and_save(request):
     try:
-        headers = {
-            'cache-control': "no-cache",
-            'content-type': "application/json",
-            "Accept": "application/json"
-        }
 
         downloadable_file_url = "http://www.swap.prathamcms.org/api/TestRepository/Get"
         downloadable_file_response = requests.request('GET', downloadable_file_url, headers=headers)
