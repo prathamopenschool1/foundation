@@ -3,9 +3,12 @@
 
 {% block content %}
 <div id="dvtree">
+
 </div>
+<div id="sectree"></div>
+
 <script>
-    var parentsData = '';
+    var treeData = '';
     var res = "{{pk}}";
     $.ajax({
         url: '/return_json_value/'+res+'/',
@@ -13,30 +16,47 @@
         crossDomain: true,
         datatype: "jsonp",
         success: function(data) {
-            parentsData = data;
-            console.log(parentsData.json_data);
-            createTree(parentsData.json_data);
+            treeData = data.json_data;
+            createTree();
 	}
 
 });
 
-    function createTree(parentsData){
+    function createTree(){
        var str='';
         str=str+'<ul>';
-
-        var tree = [];
-        for (var i = 0; i < parentsData.length; i++) {
-            if(parentsData[i]["ParentId"] === null)
-                str=str+'<li><a href="#" onclick="populateTree('+parentsData[i]["NodeId"].toString()+');">'+parentsData[i]["NodeTitle"]+'</a></li>';
+        for (var i = 0; i < treeData.length; i++) {
+            if(treeData[i]["ParentId"] === null)
+                str=str+'<li><a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
         }
         str=str+'</ul>';
         $("#dvtree").html(str);
     }
 
 
-    function populateTree(parentsData)
+    function populateTree(parentid)
     {
+        console.log(parentid);
+        console.log('hi');
+        var str = '';
+        str=str+'<ul>';
+        for (var i = 0; i < treeData.length; i++) {
+            console.log(treeData[i]["ParentId"]);
+            if(treeData[i]["ParentId"] != null)
+            {
+            if(treeData[i]["ParentId"].toString() === parentid.toString())
+                str=str+'<li><a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                }
+        }
+        str=str+'</ul>';
+        $("#dvtree").html(str);
 
+<!--        treeData[i]["Checked"]=1;-->
     }
 </script>
 {% endblock %}
+
+
+
+
+
