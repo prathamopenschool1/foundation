@@ -26,7 +26,7 @@ SECRET_KEY = 'yu4mbhgw511rh5n3@#p+w26!7yd4%=#-r$_*=2%!sy4on^=%ki'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -129,7 +129,10 @@ STATICFILES_DIRS = [
     ('images', os.path.join(STATIC_DIR, 'images')),
 ]
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 LOGIN_URL = '/players/user_login'
+LOGOUT_REDIRECT_URL = ''
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'assignplayers')

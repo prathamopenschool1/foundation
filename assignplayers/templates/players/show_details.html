@@ -1,0 +1,42 @@
+{% extends 'players/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="dvtree">
+</div>
+<script>
+    var parentsData = '';
+    var res = "{{pk}}";
+    $.ajax({
+        url: '/return_json_value/'+res+'/',
+        type: 'GET',
+        crossDomain: true,
+        datatype: "jsonp",
+        success: function(data) {
+            parentsData = data;
+            console.log(parentsData.json_data);
+            createTree(parentsData.json_data);
+	}
+
+});
+
+    function createTree(parentsData){
+       var str='';
+        str=str+'<ul>';
+
+        var tree = [];
+        for (var i = 0; i < parentsData.length; i++) {
+            if(parentsData[i]["ParentId"] === null)
+                str=str+'<li><a href="#" onclick="populateTree('+parentsData[i]["NodeId"].toString()+');">'+parentsData[i]["NodeTitle"]+'</a></li>';
+        }
+        str=str+'</ul>';
+        $("#dvtree").html(str);
+    }
+
+
+    function populateTree(parentsData)
+    {
+
+    }
+</script>
+{% endblock %}

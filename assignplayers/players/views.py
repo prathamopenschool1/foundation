@@ -19,11 +19,11 @@ headers = {
             "Accept": "application/json"
         }
 
+
 # function to fetch programs
 def index(request):
     try:
         user_data = User.objects.all()
-        print(user_data)
         if not user_data:
             # fetching programs from server
             programs_urls = "http://swap.prathamcms.org/api/program"
@@ -296,6 +296,7 @@ def app_available(request):
 
 @login_required
 def apps_list(request):
+    global apps_list_result
     apps_list_url = "http://devposapi.prathamopenschool.org/api/AppList"
     apps_list_response = requests.get(apps_list_url, headers=headers)
     apps_list_result = json.loads(apps_list_response.content.decode('utf-8'))
@@ -307,51 +308,90 @@ def apps_list(request):
     return render(request, 'players/apps_list.html', context=context)
 
 
+def return_json_value(request, pk):
+    url_to_convert = "http://devposapi.prathamopenschool.org/api/AppNode?id={}" .format(pk)
+    response_url = requests.get(url_to_convert, headers=headers)
+    result_url = json.loads(response_url.content.decode('utf-8'))
+    context = {
+        'json_data': result_url,
+    }
+
+    return JsonResponse(context, safe=False)
+
+
+@login_required
+def show_details_of_app(request, pk):
+    detail_url = "http://devposapi.prathamopenschool.org/api/AppNode?id={}" .format(pk)
+    detail_response = requests.get(detail_url, headers=headers)
+    detail_result = json.loads(detail_response.content.decode('utf-8'))
+    options_for_js = json.dumps(detail_result)
+
+    context = {
+        'detail_result': detail_result,
+        'pk': pk,
+    }
+
+    return render(request, 'players/show_details.html', context=context)
+
+
+@login_required
+def MasterListByParent(request, pk):
+    master_url = "http://devposapi.prathamopenschool.org/Api/AppNodeMasterListByParent?id={}" .format(pk)
+    master_response = requests.get(master_url, headers=headers)
+    master_result = json.loads(master_response.content.decode('utf-8'))
+
+    context = {
+        'master_result': master_result,
+    }
+
+    return render(request, 'players/master_list.html', context=context)
+
+
 def download_and_save(request):
     try:
-
-        downloadable_file_url = "http://www.swap.prathamcms.org/api/TestRepository/Get"
+        downloadable_file_url = "http://devposapi.prathamopenschool.org/Api/ApiNodeDetailListByNode?id=1"
         downloadable_file_response = requests.request('GET', downloadable_file_url, headers=headers)
         downloadable_file_result = json.loads(downloadable_file_response.content.decode('utf-8'))
 
-        for values in downloadable_file_result:  # print(values['FileDownload'])
-            try:
-                zip_file_url = values['FileDownload']
-                print(zip_file_url, 'zip')
-                print(os.path.basename(zip_file_url), 'base')
-                path_to_put = '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
-                # path_to_put = path_to_put +
-                print(path_to_put)
-                file_to_get = requests.get(zip_file_url)
-                print("ddddd")
+        for values in downloadable_file_result:
+            for j in values['LstFileList']:
+                try:
+                    zip_file_url = j['FileUrl']
+                    print(zip_file_url, 'zip')
+                    print(os.path.basename(zip_file_url), 'base')
+                    path_to_put = '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
+                    # path_to_put = path_to_put +
+                    print(path_to_put)
+                    file_to_get = requests.get(zip_file_url)
+                    print("ddddd")
 
-                with open(path_to_put, "wb") as new_zip:
-                    for chunk in file_to_get.iter_content(chunk_size=1024):
-                        new_zip.write(chunk)
+                    with open(path_to_put, "wb") as new_zip:
+                        for chunk in file_to_get.iter_content(chunk_size=1024):
+                            new_zip.write(chunk)
 
-                if os.path.exists(path_to_put):
-                    Key_Id = values['Key_Id']
-                    AppId = values['AppId']
-                    ParentId = values['ParentId']
-                    JsonData = values['JsonData']
-                    FileDownload = values['FileDownload']
-                    DateUpdated = values['DateUpdated']
-                    app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId, JsonData=JsonData,
-                                                       FileDownload=FileDownload, DateUpdated=DateUpdated)
-                    app_data.save()
+                    # if os.path.exists(path_to_put):
+                    #     Key_Id = values['Key_Id']
+                    #     AppId = values['AppId']
+                    #     ParentId = values['ParentId']
+                    #     JsonData = values['JsonData']
+                    #     FileDownload = values['FileDownload']
+                    #     DateUpdated = values['DateUpdated']
+                    #     app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId, JsonData=JsonData,
+                    #                                        FileDownload=FileDownload, DateUpdated=DateUpdated)
+                    #     app_data.save()
+                    #
+                    # else:
+                    #     print("No {}". format(path_to_put) + "exists that's why breaking the system")
+                    #     break
 
-                else:
-                    print("No {}". format(path_to_put) + "exists that's why breaking the system")
-                    break
-
-            except Exception as error:
-                print(error, 'err')
+                except Exception as error:
+                    print(error, 'err')
 
         return HttpResponse(downloadable_file_url)
 
     except Exception as e:
         print(e)
-        return HttpResponse("no internet connect")
+        return HttpResponse("no internet connection")
 
 
 

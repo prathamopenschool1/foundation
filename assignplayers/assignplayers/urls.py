@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include('players.urls')),
     path('pratham/', include('api.urls')),
     path('user_login/', views.user_login, name='user_login'),
-    path('logout/', views.user_logout, name='logout'),
+    path('user_logout/', views.user_logout, name='user_logout'),
     path('api-auth/', include('rest_framework.urls')),
 ]
 

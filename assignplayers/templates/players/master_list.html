@@ -1,0 +1,23 @@
+{% extends 'players/base.html' %}
+{% load static %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            <div class="jumbotron">
+                {% for title in master_result %}
+                     <a class="masterlist" href="#">
+                         <input>
+                     </a>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        $('.form-check').click(function(){
+            var title = $('.masterlist').text();
+            console.log(title);
+        });
+    </script>
+{% endblock %}

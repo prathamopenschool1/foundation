@@ -15,5 +15,8 @@ urlpatterns = [
     path('apps_list/', views.apps_list, name='apps_list'),
     path('app_available/', views.app_available, name='app_available'),
     path('user_login/', views.user_login, name='user_login'),
+    path('show_details/<int:pk>/', views.show_details_of_app, name='show_details'),
+    path('master_list/<int:pk>/', views.MasterListByParent, name='master_list'),
+    path('return_json_value/<int:pk>/', views.return_json_value, name='return_json_value'),
     path('downloads/', views.download_and_save, name='downloads'),
 ]

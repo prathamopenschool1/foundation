@@ -4,13 +4,20 @@
 {% endblock %}
 
 {% block content %}
-    {% for values in villages %}
-        <div class="form-check">
+<!--form-check-inline-->
+    <div class="container">
+        {% for values in villages %}
+        <div class="form-check ">
           <label class="form-check-label" for="check1">
             <input type="checkbox" class="form-check-input" id="check1" name="village_data" value="{{ values.VillageId }}">
-              {{ values.VillageName }}<br>
+              {{ values.VillageName }}
           </label>
         </div>
     {% endfor %}
+    </div>
+
+<style>
+
+</style>
 
 {% endblock %}
