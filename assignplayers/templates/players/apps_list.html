@@ -65,5 +65,22 @@
 <!--                        });-->
 
 <!--                        $('#dvtree').append(options);-->
+<!--{% for values in detail_result %}-->
+<!--                    <a href="{% url 'players:show_details' pk=pk%}" class="btn btn-secondary">{{values.NodeTitle}}</a>-->
+<!--                {% endfor %}-->
+
+<!--jquery code for appending in breadcrumb-->
+<!--$("#dvtree").click(function(e){-->
+<!--        var txt = $(e.target).text();-->
+<!--        console.log(txt);-->
+<!--        $(".item").append('<a href="#">'+txt+'</a>');-->
+<!--    });-->
+
+<!-- document.onclick = function(event) {-->
+<!--            target = event.target;-->
+<!--            console.log( target.innerHTML );-->
+<!--            $('.items').append('<a href="#">'+target.innerHTML+'</a>');-->
+<!--        };-->
+
 
 {% endblock %}

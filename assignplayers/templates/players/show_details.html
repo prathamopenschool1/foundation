@@ -4,14 +4,21 @@
 {% block content %}
     <div class="container">
         <div class="jumbotron">
+            <div class="breadcrumb">
+                <div class="items">
+                </div>
+            </div>
             <div id="dvtree">
             </div>
         </div>
     </div>
 
 <script>
-    var options = '';
+    var str='';
+    var txt = '';
     var treeData = '';
+    var nullParents = [];
+    var notNullParents = [];
     var res = "{{pk}}";
     $.ajax({
         url: '/return_json_value/'+res+'/',
@@ -25,19 +32,23 @@
 
 });
 
+
     function createTree(){
-        var str='';
-        var add='';
         str=str+'<ul>';
         for (var i = 0; i < treeData.length; i++) {
             if(treeData[i]["ParentId"] === null){
-                str=str+'<li><input type="checkbox" name='+treeData[i]["NodeId"].toString()+'><a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                str=str+'<li>\
+                <input type="checkbox" name='+treeData[i]["NodeId"].toString()+', id='+treeData[i]["NodeId"].toString()+'\
+                onclick="indeterminateCall();">\
+                <a href="#" id="abc" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                nullParents.push(treeData[i]["NodeTitle"]);
             }
-
         }
+
         str=str+'</ul>';
-<!--        document.getElementById("dvtree").innerHTML = add.value;-->
+
         $("#dvtree").html(str);
+        console.log(nullParents);
     }
 
 
@@ -45,22 +56,80 @@
     {
         var str = '';
         str=str+'<ul>';
+
         for (var i = 0; i < treeData.length; i++) {
+
             if(treeData[i]["ParentId"] !== null)
             {
             if(treeData[i]["ParentId"].toString() === parentid.toString())
-                str=str+'<li><input type="checkbox" name='+treeData[i]["NodeId"].toString()+'><a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                {
+                str=str+'<li><input type="checkbox" name='+treeData[i]["NodeId"].toString()+' onclick="indeterminateCall();">\
+                <a href="#" id="abc" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                notNullParents.push(treeData[i]["NodeTitle"]);
+                }
             }
         }
         str=str+'</ul>';
         $("#dvtree").html(str);
 
 <!--        treeData[i]["Checked"]=1;-->
+        console.log(notNullParents);
+    }
+
+
+$(document).ready(function(){
+    $('#dvtree').click(function(e){
+        var txt = $(e.target).text();
+        $(".items").append('<a href="#">'+txt+'</a>');
+    });
+})
+
+$('.items').click(function(e){
+    var txt = $(e.target).text();
+    for(var i=0;i<treeData.length; i++){
+            if(treeData[i]["ParentId"] !== null){
+                populateTree(treeData[i]["NodeId"]);
+                break;
+            }
+        }
+})
+
+    function indeterminateCall(){
+        var str1 = document.createElement('str1');
+        str1.innerHTML = str;
+        var overall = str1.querySelector('input');
+        var partial = str1.querySelector('ul input');
+        console.log(overall, partial);
+
+        overall.addEventListener('click', function(e){
+            e.preventDefault();
+        });
+
+        for(var i=0; i<partial.length; i++){
+            partial[i].addEventListener('click', updateBoxes);
+        }
+
+        function updateBoxes() {
+            var checkCounter = 0;
+            for (var i=0; i<partial.length; i++){
+                if(partial[i].checked){
+                    checkCounter++;
+                }
+            }
+
+        if(checkCounter === 0) {
+            overall.checked = false;
+            overall.indeterminate = false;
+        }
+        else if(checkCounter === partial.length) {
+            overall.checked = true;
+            overall.indeterminate = false;
+        }
+        else {
+            overall.checked = false;
+            overall.indeterminate = true;
+        }
+    }
     }
 </script>
 {% endblock %}
-
-
-
-
-

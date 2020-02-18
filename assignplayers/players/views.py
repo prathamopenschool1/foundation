@@ -80,7 +80,7 @@ def district_call(request):
     if request.method == 'GET':
         state_id = request.GET.get('state_id')
     # getting data from server for district
-    dist_url = "http://www.hlearning.openiscool.org/api/village/get?programid={}&state={}" .format(program_id, state_id)
+    dist_url = f"http://www.hlearning.openiscool.org/api/village/get?programid={program_id}&state={state_id}"
     dist_api_response = requests.request('get', dist_url, headers=headers)
     dist_api_result = json.loads(dist_api_response.content.decode('utf-8'))
     # pprint(dist_api_result)
@@ -300,7 +300,6 @@ def apps_list(request):
     apps_list_url = "http://devposapi.prathamopenschool.org/api/AppList"
     apps_list_response = requests.get(apps_list_url, headers=headers)
     apps_list_result = json.loads(apps_list_response.content.decode('utf-8'))
-
     context = {
         'apps_from_server': apps_list_result,
     }
@@ -315,7 +314,6 @@ def return_json_value(request, pk):
     context = {
         'json_data': result_url,
     }
-
     return JsonResponse(context, safe=False)
 
 
@@ -376,8 +374,9 @@ def download_and_save(request):
                     #     JsonData = values['JsonData']
                     #     FileDownload = values['FileDownload']
                     #     DateUpdated = values['DateUpdated']
-                    #     app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId, JsonData=JsonData,
-                    #                                        FileDownload=FileDownload, DateUpdated=DateUpdated)
+                    #     app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId,
+                    #                                        JsonData=JsonData, FileDownload=FileDownload,
+                    #                                        DateUpdated=DateUpdated)
                     #     app_data.save()
                     #
                     # else:
