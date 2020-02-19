@@ -47,40 +47,4 @@
                     </div>
         </main>
     {% endif %}
-<!--var divToHit = document.getElementById("dvtree");-->
-<!--                var checkbox = document.createElement('input');-->
-<!--                checkbox.type = "checkbox";-->
-<!--                checkbox.name = "name";-->
-<!--                checkbox.value = "value";-->
-<!--                checkbox.id = "id";-->
-<!--                var label = document.createElement('label');-->
-<!--                label.htmlFor = "id";-->
-<!--                label.appendChild(document.createTextNode(str));-->
-
-<!--                add = divToHit.appendChild(checkbox)+divToHit.appendChild(label)-->
-
-<!--$.each(treeData, function(name,hash){-->
-<!--                            options += '<input type="checkbox" name="checkbox-' + hash + '" id="checkbox-' + hash + '" value="' + hash + '" class="custom" />';-->
-<!--                            options += '<label for="checkbox-' + hash + '">' + name + '</label>';-->
-<!--                        });-->
-
-<!--                        $('#dvtree').append(options);-->
-<!--{% for values in detail_result %}-->
-<!--                    <a href="{% url 'players:show_details' pk=pk%}" class="btn btn-secondary">{{values.NodeTitle}}</a>-->
-<!--                {% endfor %}-->
-
-<!--jquery code for appending in breadcrumb-->
-<!--$("#dvtree").click(function(e){-->
-<!--        var txt = $(e.target).text();-->
-<!--        console.log(txt);-->
-<!--        $(".item").append('<a href="#">'+txt+'</a>');-->
-<!--    });-->
-
-<!-- document.onclick = function(event) {-->
-<!--            target = event.target;-->
-<!--            console.log( target.innerHTML );-->
-<!--            $('.items').append('<a href="#">'+target.innerHTML+'</a>');-->
-<!--        };-->
-
-
 {% endblock %}
