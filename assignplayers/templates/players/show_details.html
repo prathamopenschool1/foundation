@@ -39,9 +39,16 @@
         str=str+'<ul>';
         for (let i = 0; i < treeData.length; i++) {
             if(treeData[i]["ParentId"] === null){
-                str=str+'<li>\
-                <input type="checkbox" class="box" id="box" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                if(treeData[i].checked){
+                    str=str+'<li>\
+                <input type="checkbox" class="box" id="box" checked="true" onchange="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                }
+                else{
+                    str=str+'<li>\
+                <input type="checkbox" class="box" id="box" onchange="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
+                }
             }
         }
 
@@ -64,12 +71,12 @@
             {
                 if(treeData[i].checked){
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" checked="true" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="box" checked="true" onchange="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
                 else{
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="box" onchange="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
              }
@@ -108,32 +115,43 @@ function GetCrumb(id)
 
 
 function indeterminateCall(id){
-
+    var checkbox = document.getElementById('box').value;
     for (var i=0; i<treeData.length; i++){
         if(treeData[i]["ParentId"] !== null){
             if(treeData[i]["NodeId"].toString() === id.toString()){
-                treeData[i].checked = "true";
+                if(checkbox.checked != true){
+                    if(!treeData[i].checked){
+                        treeData[i].checked = "true";
+                        console.log(treeData[i]);
+                    }
+                    else{
+                        delete treeData[i].checked;
+                        console.log(treeData[i]);
+                    }
+                }
+
             }
-             index = treeData[i].checked;
-             if(index){
-                indexes.push(treeData[i]);
-             }
         }
         else{
-                 if(treeData[i]["NodeId"].toString() === id.toString()){
-                treeData[i].checked = true;
+                if(treeData[i]["NodeId"].toString() === id.toString()){
+                    if(checkbox.checked != true){
+                        if(!treeData[i].checked){
+                            treeData[i].checked = "true";
+                            console.log(treeData[i]);
+                        }
+                        else{
+                            delete treeData[i].checked;
+                            console.log(treeData[i]);
+                        }
+                    }
             }
-             index = treeData[i].checked;
-             if(index){
-                indexes.push(treeData[i]);
-             }
         }
     }
     jsonObject = indexes.map(JSON.stringify);
     uniqueSet = new Set(jsonObject);
     uniqueArray = Array.from(uniqueSet).map(JSON.parse);
 
-    console.log(uniqueArray);
+<!--    console.log(uniqueArray);-->
 }
 
 </script>
