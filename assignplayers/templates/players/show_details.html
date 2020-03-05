@@ -113,20 +113,20 @@ function GetCrumb(id)
 }
 
 function ticked(id){
+console.log(id)
     for(var i=0; i<treeData.length; i++){
         if(treeData[i]["ParentId"] != null){
-            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+            if(treeData[i]["NodeId"].toString() === id.toString()){
                 console.log(id.id + " checked");
                 if(!treeData[i].checked){
                     treeData[i].checked = "true";
                     console.log(treeData[i]);
+
+
                     for(var j=0; j<treeData.length; j++){
                         if(treeData[j]["ParentId"] != null){
                             if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
-                                 if(!treeData[j].checked){
-                                     treeData[j].checked = "true";
-                                     console.log(treeData[j]);
-                                 }
+                                ticked(treeData[j]["NodeId"]);
                             }
                         }
                     }
@@ -134,7 +134,7 @@ function ticked(id){
             }
         }
         else{
-            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+            if(treeData[i]["NodeId"].toString() === id.toString()){
                 console.log(id.id + " checked");
                 if(!treeData[i].checked){
                     treeData[i].checked = "true";
@@ -142,10 +142,7 @@ function ticked(id){
                     for(var j=0; j<treeData.length; j++){
                         if(treeData[j]["ParentId"] != null){
                             if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
-                                if(!treeData[j].checked){
-                                    treeData[j].checked = "true";
-                                    console.log(treeData[j]);
-                                }
+                                ticked(treeData[j]["NodeId"]);
                             }
                         }
                     }
@@ -158,34 +155,28 @@ function ticked(id){
 function unticked(id){
     for(var i=0; i<treeData.length; i++){
         if(treeData[i]["ParentId"] != null){
-            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+            if(treeData[i]["NodeId"].toString() === id.toString()){
                 console.log(id.id + " not checked");
                 delete treeData[i].checked;
                 console.log(treeData[i]);
                 for(var j=0; j<treeData.length; j++){
                     if(treeData[j]["ParentId"] != null){
                         if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
-                            if(treeData[j].checked){
-                                delete treeData[j].checked;
-                                console.log(treeData[j]);
-                            }
+                            unticked(treeData[j]["NodeId"]);
                         }
                     }
                 }
             }
         }
         else{
-            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+            if(treeData[i]["NodeId"].toString() === id.toString()){
                 console.log(id.id + " not checked");
                 delete treeData[i].checked;
                 console.log(treeData[i]);
                 for(var j=0; j<treeData.length; j++){
                     if(treeData[j]["ParentId"] != null){
                         if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
-                            if(treeData[j].checked){
-                                delete treeData[j].checked;
-                                console.log(treeData[j]);
-                            }
+                            unticked(treeData[j]["NodeId"]);
                         }
                     }
                 }
@@ -197,10 +188,10 @@ function unticked(id){
 
 function indeterminateCall(id){
     if($(id).is(":checked")){
-        ticked(id);
+        ticked(id.id);
     }
     else{
-        unticked(id);
+        unticked(id.id);
     }
 
 }
