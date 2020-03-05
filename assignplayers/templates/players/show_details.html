@@ -41,12 +41,12 @@
             if(treeData[i]["ParentId"] === null){
                 if(treeData[i].checked){
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" checked="true" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="'+treeData[i]["NodeId"].toString()+'" checked="true" onchange="indeterminateCall(this);">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
                 else{
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="'+treeData[i]["NodeId"].toString()+'" onchange="indeterminateCall(this);">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
             }
@@ -71,12 +71,12 @@
             {
                 if(treeData[i].checked){
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" checked="true" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="'+treeData[i]["NodeId"].toString()+'" checked="true" onchange="indeterminateCall(this);">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
                 else{
                     str=str+'<li>\
-                <input type="checkbox" class="box" id="box" onclick="indeterminateCall('+treeData[i]["NodeId"].toString()+');">\
+                <input type="checkbox" class="box" id="'+treeData[i]["NodeId"].toString()+'" onchange="indeterminateCall(this);">\
                 <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"]+'</a></li>';
                 }
              }
@@ -112,39 +112,95 @@ function GetCrumb(id)
 <!--        return 0;-->
 }
 
-
-function indeterminateCall(id){
-    var checkbox = document.getElementById('box').value;
-    for (var i=0; i<treeData.length; i++){
-        if(treeData[i]["ParentId"] !== null){
-            if(treeData[i]["NodeId"].toString() === id.toString()){
-                if(checkbox.checked != true){
-                    if(!treeData[i].checked){
-                        treeData[i].checked = "true";
-                        console.log(treeData[i]);
-                    }
-                    else{
-                        delete treeData[i].checked;
-                        console.log(treeData[i]);
+function ticked(id){
+    for(var i=0; i<treeData.length; i++){
+        if(treeData[i]["ParentId"] != null){
+            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+                console.log(id.id + " checked");
+                if(!treeData[i].checked){
+                    treeData[i].checked = "true";
+                    console.log(treeData[i]);
+                    for(var j=0; j<treeData.length; j++){
+                        if(treeData[j]["ParentId"] != null){
+                            if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
+                                 if(!treeData[j].checked){
+                                     treeData[j].checked = "true";
+                                     console.log(treeData[j]);
+                                 }
+                            }
+                        }
                     }
                 }
-
             }
         }
         else{
-                if(treeData[i]["NodeId"].toString() === id.toString()){
-                    if(checkbox.checked != true){
-                        if(!treeData[i].checked){
-                            treeData[i].checked = "true";
-                            console.log(treeData[i]);
-                        }
-                        else{
-                            delete treeData[i].checked;
-                            console.log(treeData[i]);
+            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+                console.log(id.id + " checked");
+                if(!treeData[i].checked){
+                    treeData[i].checked = "true";
+                    console.log(treeData[i]);
+                    for(var j=0; j<treeData.length; j++){
+                        if(treeData[j]["ParentId"] != null){
+                            if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
+                                if(!treeData[j].checked){
+                                    treeData[j].checked = "true";
+                                    console.log(treeData[j]);
+                                }
+                            }
                         }
                     }
+                }
             }
         }
+    }
+}
+
+function unticked(id){
+    for(var i=0; i<treeData.length; i++){
+        if(treeData[i]["ParentId"] != null){
+            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+                console.log(id.id + " not checked");
+                delete treeData[i].checked;
+                console.log(treeData[i]);
+                for(var j=0; j<treeData.length; j++){
+                    if(treeData[j]["ParentId"] != null){
+                        if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
+                            if(treeData[j].checked){
+                                delete treeData[j].checked;
+                                console.log(treeData[j]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(treeData[i]["NodeId"].toString() === id.id.toString()){
+                console.log(id.id + " not checked");
+                delete treeData[i].checked;
+                console.log(treeData[i]);
+                for(var j=0; j<treeData.length; j++){
+                    if(treeData[j]["ParentId"] != null){
+                        if(treeData[i]["NodeId"].toString() === treeData[j]["ParentId"].toString()){
+                            if(treeData[j].checked){
+                                delete treeData[j].checked;
+                                console.log(treeData[j]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+function indeterminateCall(id){
+    if($(id).is(":checked")){
+        ticked(id);
+    }
+    else{
+        unticked(id);
     }
 
 }
