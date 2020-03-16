@@ -7,6 +7,9 @@
             <div class="breadcrumb">
                 <div class="items">
                 </div>
+                <div class="btn-block pull-right">
+                    <button type="submit" id="sort_ids" class="btn btn-primary float-right" onclick="remainingElements();">Download</button>
+                </div>
             </div>
             <div id="dvtree">
             </div>
@@ -17,8 +20,6 @@
     let str='';
     let txt = '';
     let treeData = '';
-    let nullParents = [];
-    let notNullParents = [];
     var index = '';
     var indexes = [];
     var uniqueArray = [];
@@ -98,14 +99,14 @@ function GetCrumb(id)
                 {
                     if(treeData[i]["NodeId"].toString() === id.toString())
                     {
-                        $(".items").prepend(' > <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"].toString()+'</a>');
+                        $(".items").prepend('> <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"].toString()+'</a>');
                         return GetCrumb(treeData[i]["ParentId"]);
                     }
                 }
                 else
                 {
                     if(treeData[i]["NodeId"].toString() === id.toString())
-                    { $(".items").prepend('<a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"].toString()+'</a>');
+                    { $(".items").prepend(' <a href="#" onclick="populateTree('+treeData[i]["NodeId"].toString()+');">'+treeData[i]["NodeTitle"].toString()+'</a>');
                     }
                 }
         }
@@ -195,6 +196,39 @@ function indeterminateCall(id){
     }
 
 }
+
+function remainingElements(){
+    for(var i=0;i<treeData.length;i++){
+        if(treeData[i].checked){
+            indexes.push(treeData[i]["NodeId"]);
+            console.log(treeData[i]["NodeId"]);
+        }
+    }
+    jsonObject = indexes.map(JSON.stringify);
+    uniqueSet = new Set(jsonObject);
+    uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+
+    console.log(uniqueArray);
+}
+
+$('#sort_ids').click(function(){
+    $.ajax({
+        url: "/downloads/",
+        type: 'POST',
+        data:{
+            'node_values[]':  uniqueArray,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        crossDomain: true,
+        datatype: "json",
+        success: function(result){
+            console.log(result);
+        },
+        error: function (error) {
+            console.log('error; ' + eval(error));
+        }
+    });
+});
 
 </script>
 {% endblock %}

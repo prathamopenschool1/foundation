@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a322017-7919-43cd-a317-5d5e24f099b9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pratham.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/pratham.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/players/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/players/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/app_available.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/app_available.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/templates/players/show_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/templates/players/show_details.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +37,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/ubvillagefilteringprogram" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -51,6 +55,7 @@
         </serviceView>
       </list>
     </option>
+    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -74,21 +79,21 @@
       <screen x="47" y="27" width="1319" height="741" />
     </state>
     <state x="313" y="27" width="777" height="741" key="CommitChangelistDialog2/47.27.1319.741@47.27.1319.741" timestamp="1581416589394" />
-    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580711566490">
+    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1583139941127">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
-    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl/47.27.1319.741@47.27.1319.741" timestamp="1580711566490" />
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1582522636163">
+    <state x="489" y="154" width="424" height="484" key="FileChooserDialogImpl/47.27.1319.741@47.27.1319.741" timestamp="1583139941127" />
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1584335611754">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
-    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1582522636163" />
+    <state x="362" y="224" key="com.intellij.ide.util.TipDialog/47.27.1319.741@47.27.1319.741" timestamp="1584335611754" />
     <state x="360" y="27" width="683" height="741" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581492479421">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
     <state x="360" y="27" width="683" height="741" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/47.27.1319.741@47.27.1319.741" timestamp="1581492479421" />
-    <state x="369" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1582029042705">
+    <state x="369" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1583129945613">
       <screen x="47" y="27" width="1319" height="741" />
     </state>
-    <state x="369" y="89" width="672" height="678" key="search.everywhere.popup/47.27.1319.741@47.27.1319.741" timestamp="1582029042705" />
+    <state x="369" y="89" width="672" height="678" key="search.everywhere.popup/47.27.1319.741@47.27.1319.741" timestamp="1583129945613" />
   </component>
 </project>

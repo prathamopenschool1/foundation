@@ -7,11 +7,14 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import PlayersDatastore, AppsList
+from .models import PlayersDatastore, AppsList, FilesRelatedToAppsList
 from django.contrib.auth.models import User
+from pathlib import Path
 import requests
 import json
 
+
+homeDir = str(Path.home())
 
 headers = {
             'cache-control': "no-cache",
@@ -285,8 +288,8 @@ def user_login(request):
 
 @login_required
 def app_available(request):
+    global app_list_views
     app_list_views = AppsList.objects.all()
-
     context = {
         'app_list_views': app_list_views,
     }
@@ -319,14 +322,26 @@ def return_json_value(request, pk):
 
 @login_required
 def show_details_of_app(request, pk):
+    global all_apps, value
+    all_app = []
     detail_url = "http://devposapi.prathamopenschool.org/api/AppNode?id={}" .format(pk)
     detail_response = requests.get(detail_url, headers=headers)
     detail_result = json.loads(detail_response.content.decode('utf-8'))
-    options_for_js = json.dumps(detail_result)
+    for all_apps in apps_list_result:
+        for k,v in all_apps.items():
+            if v == pk:
+                print(all_apps)
+                all_app.append(all_apps)
+
+    for value in all_app:
+        value = value['AppName']
+
+    print(value)
 
     context = {
         'detail_result': detail_result,
         'pk': pk,
+        'all_app': value,
     }
 
     return render(request, 'players/show_details.html', context=context)
@@ -346,51 +361,73 @@ def MasterListByParent(request, pk):
 
 
 def download_and_save(request):
+    global node_values, downloadable_file_url, downloadable_file_response, downloadable_file_result, path_to_put
+
+    if request.method == 'POST':
+        node_values = request.POST.getlist('node_values[]')
+
+    node_values = list(map(int, node_values))
+    print(node_values)
+
     try:
-        downloadable_file_url = "http://devposapi.prathamopenschool.org/Api/ApiNodeDetailListByNode?id=1"
-        downloadable_file_response = requests.request('GET', downloadable_file_url, headers=headers)
-        downloadable_file_result = json.loads(downloadable_file_response.content.decode('utf-8'))
+        for ids in node_values:
+            downloadable_file_url = "http://devposapi.prathamopenschool.org/Api/AppNodeDetailListByNode?id=%s" %(ids)
+            downloadable_file_response = requests.request('GET', downloadable_file_url, headers=headers)
+            downloadable_file_result = json.loads(downloadable_file_response.content.decode('utf-8'))
 
-        for values in downloadable_file_result:
-            for j in values['LstFileList']:
-                try:
-                    zip_file_url = j['FileUrl']
-                    print(zip_file_url, 'zip')
-                    print(os.path.basename(zip_file_url), 'base')
-                    path_to_put = '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
-                    # path_to_put = path_to_put +
-                    print(path_to_put)
-                    file_to_get = requests.get(zip_file_url)
-                    print("ddddd")
+            pprint(downloadable_file_result)
 
-                    with open(path_to_put, "wb") as new_zip:
-                        for chunk in file_to_get.iter_content(chunk_size=1024):
-                            new_zip.write(chunk)
+            for values in downloadable_file_result:
+                for j in values['LstFileList']:
+                    try:
+                        zip_file_url = j['FileUrl']
+                        print(zip_file_url, 'zip')
+                        print(os.path.basename(zip_file_url), 'base')
+                        path_to_put = os.path.join(homeDir, 'zipsandjson')
+                        path_to_put = os.path.join(path_to_put, str(os.path.basename(zip_file_url))) # '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
+                        print(path_to_put)
+                        file_to_get = requests.get(zip_file_url)
+                        print("ddddd")
 
-                    # if os.path.exists(path_to_put):
-                    #     Key_Id = values['Key_Id']
-                    #     AppId = values['AppId']
-                    #     ParentId = values['ParentId']
-                    #     JsonData = values['JsonData']
-                    #     FileDownload = values['FileDownload']
-                    #     DateUpdated = values['DateUpdated']
-                    #     app_data = AppsList.objects.create(Key_Id=Key_Id, AppId=AppId, ParentId=ParentId,
-                    #                                        JsonData=JsonData, FileDownload=FileDownload,
-                    #                                        DateUpdated=DateUpdated)
-                    #     app_data.save()
-                    #
-                    # else:
-                    #     print("No {}". format(path_to_put) + "exists that's why breaking the system")
-                    #     break
+                        with open(path_to_put, "wb") as new_zip:
+                            for chunk in file_to_get.iter_content(chunk_size=1024):
+                                new_zip.write(chunk)
 
-                except Exception as error:
-                    print(error, 'err')
+                    except Exception as error:
+                        print(error, 'err')
+                print(path_to_put, 'oookkk')
+                if os.path.exists(path_to_put):
+                    NodeId = values['NodeId']
+                    NodeType = values['NodeType']
+                    NodeTitle = values['NodeTitle']
+                    JsonData = values['JsonData']
+                    ParentId = values['ParentId']
+                    AppId = values['AppId']
+                    DateUpdated = values['DateUpdated']
+                    app_data = AppsList.objects.create(NodeId=NodeId, NodeType=NodeType, NodeTitle=NodeTitle,
+                                                       JsonData=JsonData, ParentId=ParentId,  AppId=AppId,
+                                                       DateUpdated=DateUpdated)
+                    app_data.save()
 
-        return HttpResponse(downloadable_file_url)
+                    for files in values['LstFileList']:
+                        FileId = files['FileId']
+                        NodeId = files['NodeId']
+                        FileType = files['FileType']
+                        FileUrl = files['FileUrl']
+                        DateUpdated = files['DateUpdated']
+
+                        file_data = FilesRelatedToAppsList.objects.create(FileId=FileId, NodeId=NodeId,
+                                                                          FileType=FileType, FileUrl=FileUrl,
+                                                                          DateUpdated=DateUpdated)
+
+                        file_data.save()
+
+                else:
+                    print("No {}".format(path_to_put) + "exists that's why breaking the system")
+                    break
+
+        return reverse('players:app_available')
 
     except Exception as e:
         print(e)
         return HttpResponse("no internet connection")
-
-
-

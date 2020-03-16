@@ -18,21 +18,37 @@ class PlayersDatastore(models.Model):
 
 
 class AppsList(models.Model):
-    AppId = models.CharField(max_length=200)
-    AppName = models.CharField(max_length=200)
-    ThumbUrl = models.CharField(max_length=200)
-    AppDesc = JSONField(default={}, blank=True)
-    AppOrder = models.CharField(max_length=500, default="file name which will be downloaded")
-    DateUpdated = models.CharField(max_length=100)
+    NodeId = models.CharField(max_length=100, default='')
+    NodeType = models.CharField(max_length=100, default='')
+    NodeTitle = models.CharField(max_length=100, default='')
+    JsonData = JSONField(default={}, blank=True)
+    ParentId = models.CharField(max_length=100, blank=True, null=True)
+    AppId = models.CharField(max_length=100, default='')
+    DateUpdated = models.CharField(max_length=100, default='')
 
     # print(Key_Id, AppId, ParentId, JsonData, FileDownload, DateUpdated)
 
     @classmethod
-    def create(cls, AppId, AppName, ThumbUrl, AppDesc, AppOrder, DateUpdated):
-        app_data = cls(AppId=AppId, AppName=AppName, ThumbUrl=ThumbUrl, AppDesc=AppDesc,
-                       AppOrder=AppOrder, DateUpdated=DateUpdated)
+    def create(cls, NodeId, NodeType, NodeTitle, JsonData, ParentId, AppId, DateUpdated):
+        app_data = cls(NodeId=NodeId, NodeType=NodeType, NodeTitle=NodeTitle, JsonData=JsonData,
+                       ParentId=ParentId, AppId=AppId, DateUpdated=DateUpdated)
         return app_data
 
     # def __str__(self):
     #     return self.AppId
+
+
+class FilesRelatedToAppsList(models.Model):
+    FileId = models.IntegerField()
+    NodeId = models.CharField(max_length=100)
+    FileType = models.CharField(max_length=100)
+    FileUrl = models.URLField(max_length=500)
+    DateUpdated = models.CharField(max_length=100)
+
+    @classmethod
+    def create(cls, FileId, NodeId, FileType, FileUrl, DateUpdated):
+        file_data = cls(FileId=FileId, NodeId=NodeId, FileType=FileType, FileUrl=FileUrl,
+                        DateUpdated=DateUpdated)
+
+        return file_data
 
