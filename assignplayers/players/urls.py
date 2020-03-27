@@ -19,4 +19,5 @@ urlpatterns = [
     path('master_list/<int:pk>/', views.MasterListByParent, name='master_list'),
     path('return_json_value/<int:pk>/', views.return_json_value, name='return_json_value'),
     path('downloads/', views.download_and_save, name='downloads'),
+    path('update_checker/<int:pk>/', views.update_checker, name='update_checker'),
 ]
