@@ -428,6 +428,6 @@ def download_and_save(request):
 
         return reverse('players:app_available')
 
-    except Exception as e:
-        print(e)
+    except Exception as e1:
+        print(e1)
         return HttpResponse("no internet connection")
