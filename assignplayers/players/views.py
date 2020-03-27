@@ -328,7 +328,7 @@ def show_details_of_app(request, pk):
     detail_response = requests.get(detail_url, headers=headers)
     detail_result = json.loads(detail_response.content.decode('utf-8'))
     for all_apps in apps_list_result:
-        for k,v in all_apps.items():
+        for k, v in all_apps.items():
             if v == pk:
                 print(all_apps)
                 all_app.append(all_apps)
@@ -384,7 +384,11 @@ def download_and_save(request):
                         print(zip_file_url, 'zip')
                         print(os.path.basename(zip_file_url), 'base')
                         path_to_put = os.path.join(homeDir, 'zipsandjson')
-                        path_to_put = os.path.join(path_to_put, str(os.path.basename(zip_file_url))) # '/home/pratham/zipsandjson/'+str(os.path.basename(zip_file_url))
+                        if not os.path.exists(path_to_put):
+                            os.makedirs(path_to_put)
+                        else:
+                            pass
+                        path_to_put = os.path.join(path_to_put, str(os.path.basename(zip_file_url)))
                         print(path_to_put)
                         file_to_get = requests.get(zip_file_url)
                         print("ddddd")
@@ -426,8 +430,53 @@ def download_and_save(request):
                     print("No {}".format(path_to_put) + "exists that's why breaking the system")
                     break
 
-        return reverse('players:app_available')
+        return HttpResponseRedirect('/app_available/')
 
-    except Exception as e1:
-        print(e1)
+    except Exception as e:
+        print(e)
         return HttpResponse("no internet connection")
+
+
+@login_required
+def update_checker(request, pk):
+    global value
+    app_date_check = AppsList.objects.get(pk=pk)
+    print(app_date_check.DateUpdated)
+    app_list_check_url = "http://devposapi.prathamopenschool.org/api/AppNode?id={}" .format(pk)
+    apps_list_check_response = requests.get(app_list_check_url, headers=headers)
+    apps_list_check_result = json.loads(apps_list_check_response.content.decode('utf-8'))
+    # print(apps_list_check_result)
+    for apps in apps_list_check_result:
+        if app_date_check.NodeTitle == apps['NodeTitle'] and app_date_check.DateUpdated == apps['DateUpdated'] and\
+                app_date_check.AppId == apps['AppId']:
+            print(apps['NodeTitle'])
+            context = {
+                'no_update_required': apps,
+            }
+            return render(request, 'players/app_available.html', context=context)
+    else:
+        apps_list_url = "http://devposapi.prathamopenschool.org/api/AppList"
+        apps_list_response = requests.get(apps_list_url, headers=headers)
+        apps_list_result = json.loads(apps_list_response.content.decode('utf-8'))
+        all_app = []
+        detail_url = "http://devposapi.prathamopenschool.org/api/AppNode?id={}".format(pk)
+        detail_response = requests.get(detail_url, headers=headers)
+        detail_result = json.loads(detail_response.content.decode('utf-8'))
+        for all_apps in apps_list_result:
+            for k, v in all_apps.items():
+                if v == pk:
+                    print(all_apps)
+                    all_app.append(all_apps)
+
+        for value in all_app:
+            value = value['AppName']
+
+        print(value)
+
+        context = {
+            'detail_result': detail_result,
+            'pk': pk,
+            'all_app': value,
+        }
+
+        return render(request, 'players/show_details.html', context=context)

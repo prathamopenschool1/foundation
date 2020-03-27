@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a322017-7919-43cd-a317-5d5e24f099b9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignplayers/players/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/assignplayers/players/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
